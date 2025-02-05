@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const Login = () => {
+    const navigate = useNavigate()
+    const submit = (e) => {
+        e.preventDefault()
+        navigate('/admin/')
+    }
+
     return (
         <>
             <div className="border-2 p-5 rounded-md bg-white">
-                <form method="post" name="form_login">
+                <form onSubmit={submit}>
                     <div className="text-center mb-7">
                         <h1 className="text-4xl mb-2">Sign in</h1>
                         <p className="text-xs font-semibold">Sign in to continue</p>
@@ -30,7 +36,7 @@ const Login = () => {
                     <span className="text-red-500 text-sm italic mb-2 block" id="errorSpan"></span>
 
                     <div className="bg-secondary text-center text-white py-2 rounded-md">
-                        <button className="max-w-full font-bold">
+                        <button className="max-w-full font-bold cursor-pointer">
                             Sign in
                         </button>
                     </div>
