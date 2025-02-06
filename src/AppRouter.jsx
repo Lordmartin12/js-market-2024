@@ -8,6 +8,7 @@ import AppLayout from "./layouts/AppLayout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/admin/Dashboard";
+import Products from "./pages/admin/Products";
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ const AppRouter = () => {
         {/* The admin pages routes */}
         <Route element={<AppLayout />} >
           <Route path="/admin/" element={<Dashboard />} />
+          <Route path="/admin/products" element={<Products />} />
         </Route>
       </Routes>
     </BrowserRouter>
