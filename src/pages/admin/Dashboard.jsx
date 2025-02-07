@@ -8,11 +8,15 @@ const Dashboard = () => {
     const [chartData, setChartData] = useState(null);
 
     const fetchChartData = async () => {
-        await axios.get('http://localhost/fakeapi/charts/chart-data.php')
+        let baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+        await axios.get(`${baseURL}/charts/chart-data.php`)
             .then((res) => {
                 setChartData(res.data);
             })
-
+            .catch((err) => {
+                console.log(err);
+                alert("Error fetch the chart data");
+            })
     };
 
     useEffect(() => {
