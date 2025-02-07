@@ -1,10 +1,43 @@
+import axios from "axios";
+import { useContext, useState } from "react";
+import { FaCircleNotch } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom"
+import { UserContext } from "../../services/UserContext";
+import { storeToken, storeUser } from "../../hooks/AuthUser";
 
 const Login = () => {
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate()
-    const submit = (e) => {
+
+    const user = useContext(UserContext)
+
+    console.log(user);
+    
+
+    const submit = async (e) => {
         e.preventDefault()
-        navigate('/admin/')
+        setError('')
+        setSubmitting(true)
+        let baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+
+        let data = new FormData(e.target)
+        await axios.post(`${baseUrl}/user/authenticate.php`, data)
+        .then((res) => {
+            console.log(res.data);
+            if(res.data.success){
+                storeUser(res.data.user);
+                storeToken(res.data.auth_token)
+                navigate('/admin/')
+            }
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+            setError(error.response.data.message);
+        })
+        .finally(() => {
+            setSubmitting(false)
+        })
     }
 
     return (
@@ -16,7 +49,7 @@ const Login = () => {
                         <p className="text-xs font-semibold">Sign in to continue</p>
                     </div>
 
-                    <div className="max-w-full space-y-7 mb-8">
+                    <div className="max-w-full space-y-7 mb-2">
                         <input className="inpute" type="email" placeholder="Email" name="email" />
                         <input className="inpute" type="password" placeholder="Password" name="password" />
                         <div className="flex items-start justify-between">
@@ -33,20 +66,18 @@ const Login = () => {
                         </div>
                     </div>
                     {/* <!-- Error Span to show error message --> */}
-                    <span className="text-red-500 text-sm italic mb-2 block" id="errorSpan"></span>
+                    <span className="text-red-500 text-sm italic mb-2 block">{error}</span>
 
-                    <div className="bg-secondary text-center text-white py-2 rounded-md">
-                        <button className="max-w-full font-bold cursor-pointer">
-                            Sign in
-                        </button>
-                    </div>
+                    <button disabled={submitting} className={`${submitting ? 'bg-secondary/50' : 'bg-secondary'} w-full gap-3 flex justify-center items-center text-center text-white py-2 rounded-md font-bold`}>
+                        {submitting && <FaCircleNotch className="animate-spin" />} <span>Sign In</span>
+                    </button>
                 </form>
             </div>
 
             <div className="text-center mt-5">
                 <p>
                     {`Don't have an account?`}
-                    <Link to="/signup"  className="text-secondary">Sign Up</Link>
+                    <Link to="/signup" className="text-secondary">Sign Up</Link>
                 </p>
             </div>
         </>
