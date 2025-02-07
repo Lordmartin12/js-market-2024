@@ -37,7 +37,8 @@ const Contact = () => {
             { selectedUser && <div className={`fixed inset-0 z-10 bg-slate-950/80 ${showModal ? 'block' : 'hidden'}`}>
                 <div className="fixed inset-0 flex justify-center items-center">
                     <div className="bg-white rounded-md p-4 w-full max-w-xl relative">
-                        <button role="button" className="absolute top-2 right-3 py-2 px-4 bg-red-500 text-white rounded-md" onClick={() => setShowModal(false)}>
+                        <button role="button" className="absolute top-2 right-3 py-2 px-4 bg-red-500 text-white rounded-md" 
+                            onClick={() => setShowModal(false)}>
                             Close
                         </button>
                         
