@@ -2,8 +2,12 @@ import React from 'react'
 import { FaProductHunt, FaTachometerAlt } from 'react-icons/fa'
 import { FaBars } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
+import { clearAuth } from '../hooks/AuthUser'
 
 const SideBar = ({ onClose = () => {} }) => {
+    const logout = () => {
+        clearAuth();
+    }
     return (
         <div className='flex flex-col justify-center items-center h-full'>
             <section className='flex justify-end px-3 py-2'>
@@ -32,7 +36,7 @@ const SideBar = ({ onClose = () => {} }) => {
             </section>
 
             <section className='w-full px-4 py-2'>
-                <Link to={'/'} className='py-1 px-2 bg-primary text-white rounded-md w-full block'>Logout</Link>
+                <Link onClick={logout} to={'/'} className='py-1 px-2 bg-primary text-white rounded-md w-full block'>Logout</Link>
             </section>
         </div>
     )
